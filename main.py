@@ -79,7 +79,7 @@ def custom_openapi():
             contact={
                     "name": "Mariano Imende",
                     "url": "http://contact/",
-                    "email": "imende.mariano",
+                    "email": "imende.mariano@gmail.com",
             },
             license_info=app.license_info,
             routes=app.routes,
