@@ -1,6 +1,7 @@
 from ast import Dict
 
-from pydantic import BaseModel
+                
+                
 #https://fastapi.tiangolo.com/advanced/additional-responses/
 def documentacion_sesion() -> Dict:
 
@@ -8,18 +9,107 @@ def documentacion_sesion() -> Dict:
         "summary": "Crear un nuevo token",
         "description": "Ejemplo de solicitud:",
         "response_description": "Access token creado satisfactoriamente",
-        "responses": {
-            200: {
-                "description": "Token creado satisfactoriamente",
-                "content": {
-                    "application/json": {
-                        # "schema": {
-                        # "$ref": "#/components/schemas/Item"
-                    #}
-                        "example": {"access_tokens": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjaGFsbGVuZ2UiLCJleHAiOjE3MTA0Mjc0NTJ9.7dB7Oo-5xumCSq0uY1_eujdlZB8OOgbSULrtx65uGv0","token_type": "bearer","access_token_expires": 1800.0,"tarjetas": [{"descripcion": "BANCO HIPOTECARIO","numero": "825840853443"},{"descripcion": "BANCO HSBC","numero": "423455721156"},{"descripcion": "BANCO DE LA PROVINCIA DE BUENOS AIRES","numero": "595278769781"}]}
+        "openapi_extra":{"requestBody": {
+            "content": {
+                "application/json": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "username": {
+                                "type": "string",
+                                "description": "Permite solo caracteres alfanuméricos (letras mayúsculas y minúsculas, y números) y la longitud del 'username' esté entre 6 y 10 caracteres. |Examples:challenge",
+                                "pattern": "^[a-zA-Z0-9]{6,10}$",
+                                "minLength": 6,
+                                "maxLength": 10,
+                                "examples":["challenge"]
+                            },
+                            "password": {
+                                "type": "string",
+                                "description": "La Password debe contener longitud de 8 caracteres, además, tiene que tener al menos una letra mayúscula, un número y al menos uno de los caracteres especiales: '+', '*' ,'-'  |Examples:'M1i+sqss, Op-loi+0, R*1ndfew",
+                                "pattern": "^(?=.*[A-Z])(?=.*[+*-])(?=.*[0-9]).{8}$",
+                                "minLength": 8,
+                                "maxLength": 8,
+                                "examples": ["M1i+sqss","Op-loi+0","R*1ndfew"]
+                                
+                            }
+                        },
+                        "required": ["username", "password"]
+                    },
+                    "example": {
+                        "username": "challenge",
+                        "password": "challenge"
                     }
                 }
-            },            
+            },
+            "required": True
+        },
+            },
+        "responses":{
+            200: {
+                "description": "Sesión iniciada exitosamente",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "access_token": "uyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjaGFsbGVuZ2UiLCJleHAiOjE3MTA0Mjc0NTJ9.7dB7Oo-5xumCSq0uY1_eujdlZB8OOgbSULrtx65uGv0",
+                            "token_type": "bearer",
+                            "access_token_expires": "1800",
+                            "tarjetas": [
+                                {
+                                    "descripcion": "BANCO HIPOTECARIO",
+                                    "numero": "825840853443"
+                                },
+                                {
+                                    "descripcion": "BANCO HSBC",
+                                    "numero": "423455721156"
+                                },
+                                {
+                                    "descripcion": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+                                    "numero": "595278769781"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "access_token": {
+                                    "type": "string",
+                                    "description": "Token de acceso JWT",
+                                    "pattern": "^[A-Za-z0-9-_]{20,40}\.[A-Za-z0-9-_]{20,200}\.[A-Za-z0-9-_]{43,64}$"
+                                },
+                                "token_type": {
+                                    "type": "string",
+                                    "description": "Tipo de token",
+                                    "pattern": "^bearer$"
+                                },
+                                "access_token_expires": {
+                                    "type": "string",
+                                    "description": "Tiempo de expiración del token en segundos",
+                                    "pattern": "^\d+$"
+                                },
+                                "tarjetas": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "descripcion": {
+                                                "type": "string",
+                                                "description": "Nombre del banco",
+                                                "pattern": "^[A-Z\s]{1,20}$"
+                                            },
+                                            "numero": {
+                                                "type": "string",
+                                                "description": "Número de tarjeta",
+                                                "pattern": "^[0-9]{15,19}$"
+                                            }
+                                        }
+                                    },
+                                    "description": "Lista de tarjetas asociadas a la cuenta"
+                                }
+                            }
+                        }
+                    }
+                }
+            },       
             400: {
                 "description": "Error",
                 "content": {

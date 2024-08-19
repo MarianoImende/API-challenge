@@ -1,12 +1,25 @@
 from decimal import Decimal
 from pydantic import BaseModel, Field
 
+import re
+from typing import Annotated, Final
+
+import regex
+
 #https://fastapi.tiangolo.com/tutorial/schema-extra-example/
 #https://docs.pydantic.dev/latest/concepts/fields/#field-aliases
 #/wallet/sesion
+TEMPLATE_STR_REGEX: Final[re.Pattern] = re.compile(
+    r"^(?=.*[A-Z])(?=.*[+*-])(?=.*[0-9]).{8}$"
+)
+
+
 class Usuario(BaseModel):
-    username: str = Field(..., examples=["challenge"],min_length=9, max_length=9)
-    password: str = Field(..., examples=["challenge"])   
+    username: str# = Field(..., pattern=r"^[a-zA-Z0-9]{6,10}$")
+    password: str# = Field(..., pattern=r"^(?=.*[A-Z])(?=.*[+*-])(?=.*[0-9]).{8}$")
+    #username: str = Field(..., examples=["challenge"],min_length=9, max_length=9, pattern=r"bearer")
+    #password: str = Field(..., examples=["challenge"])
+
 
 #/wallet/cuentas    
 class Tarjeta(BaseModel):
@@ -19,12 +32,12 @@ class Cuenta(BaseModel):
 #/wallet/ultmovimientos
 class Movimientos(BaseModel):
     numero_cuenta: str
-    tipo_cuenta: str
+    tipo: str
     model_config = {
         "json_schema_extra": {
             "examples": [
                 {
-                    "numero_cuenta": "0945035534",
+                    "numero_cuenta": "99083422",
                     "tipo": "CA $",
                 }
             ]
