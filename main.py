@@ -1,4 +1,3 @@
-#https://www.youtube.com/watch?v=uNl8nlnBVMc
 from fastapi.encoders import jsonable_encoder
 from babel.numbers import format_currency
 import json
@@ -18,7 +17,7 @@ from fastapi import FastAPI, Depends, HTTPException, Header, Request, status
 from fastapi.security import HTTPAuthorizationCredentials, OAuth2PasswordBearer, HTTPBearer
 from pydantic import BaseModel
 from passlib.context import CryptContext
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 from fastapi.openapi.utils import get_openapi
 from respuesta_modelos import Cuentas_response, PagoRespuesta, Saldo_response, Sesion_response, movimiento_respuesta
@@ -26,6 +25,8 @@ from solicitud_modelos import Movimientos, PagoRequest, Tarjeta, Usuario, Cuenta
 from decimal import Decimal
 
 app = FastAPI(description="API-Wallet", version="0.1.0")
+app.openapi_version= "3.1.0"
+print ("fastapi versión openapi:", app.openapi_version)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/wallet/sesion')
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 SECRET_KEY = "01330dc7af5264e5ef8f880486dbe52045c0c5f2b060daa372783ff10bacb2d9" # Ideal es que este en una variable de entorno bien oculto (openssl rand -hex 32)
@@ -66,7 +67,7 @@ bancarias,realizar transacciones y acceder de forma segura a su información fin
  
 Esta API se ha diseñado con un enfoque en la seguridad y la eficiencia. 🚀
 
-Servicio con fines de entrenamiento
+Servicio con fines de entrenamiento funcionalidades virtuales
 """
 def custom_openapi():
     if not app.openapi_schema:
@@ -78,8 +79,8 @@ def custom_openapi():
             terms_of_service=app.terms_of_service,
             contact={
                     "name": "Mariano Imende",
-                    "url": "http://contact/",
-                    "email": "imende.mariano@gmail.com",
+                    "url": "https://automationtesting.ar/",
+                    "email": "imende.mariano@gmail.com.ar",
             },
             license_info=app.license_info,
             routes=app.routes,
@@ -87,14 +88,6 @@ def custom_openapi():
             servers=app.servers,
         )
         
-        # for _, method_item in app.openapi_schema.get('paths').items():
-            
-        #     for _, param in method_item.items():
-        #         responses = param.get('responses')
-        #         # remove 422 response, also can remove other status code
-        #         # if '422' in responses:
-        #         #     del responses['422']
-    
     return app.openapi_schema
 
 app.openapi = custom_openapi
@@ -130,6 +123,12 @@ class User(BaseModel):
 class UserInDB(User):
   hashed_password:str
 
+@app.middleware("http")
+async def log_connections(request: Request, call_next):
+    client_host, client_port = request.client
+    print(f"Conexión desde: {client_host}:{client_port}")
+    response = await call_next(request)
+    return response
   
 def get_user(db,username):
     if username in db:
@@ -153,11 +152,18 @@ def autenticate_user(db,username,password):
 
 def create_token(data: dict, time_expire: Union[datetime, None] = None):
     data_copy = data.copy()
+    
+    # Calcular la hora actual en UTC formato humano
+    current_time = datetime.now(timezone.utc)
+    
     if time_expire is None:
-        expires = datetime.utcnow() + timedelta(minutes=15)#valor predeterminado
+        expires = current_time + timedelta(minutes=15)  # datetime.utcnow() + timedelta(minutes=15)#valor predeterminado
     else:
-        expires = datetime.utcnow() + time_expire
-    data_copy.update({"exp": expires})
+        expires = current_time + time_expire  # Usar datetime.now con zona horaria UTC: ANTES: datetime.utcnow() + time_expire
+    
+    #convierto a entero unix
+    expires_timestamp = int(expires.timestamp())
+    data_copy.update({"exp": expires_timestamp})
     token_JWT = jwt.encode(data_copy, key=SECRET_KEY,algorithm=ALGORITHM)
     return token_JWT
 
@@ -196,53 +202,31 @@ def validate_token(token: str):
     return True
 
 from fastapi.responses import JSONResponse
-
-#get_swagger_ui_html(openapi_url="/docs", title="FastAPSSSSSSI", swagger_favicon_url="https://www.infobae.com/pf/resources/favicon/favicon.ico?d=2061")
 from fastapi.openapi.docs import get_swagger_ui_html
-# #https://dev.to/kludex/how-to-change-fastapis-swagger-favicon-4j6
-# @app.get("/", response_class=HTMLResponse)
-# async def root():
-#     return get_swagger_ui_html(
-#         openapi_url="/openapi.json",
-#         title="Wallet",
-#         swagger_favicon_url="https://www.infobae.com/pf/resources/favicon/favicon.ico?d=2061"
-#     )
-    
-# @app.get("/", response_class=HTMLResponse)
-# async def root():
-#     return get_swagger_ui_html(
-#         openapi_url="/openapi.json",
-#         title="Wallet",
-#         swagger_favicon_url=""
-#     ) 
-    # return """
-    # <h1>API Docs</h1>
-    # <p>Redirecting to <a href="/docs">docs</a>...</p>
-    # <p>Redirecting to <a href="/redoc">redoc</a>...</p>
-    # <p>Redirecting to <a href="/openapi.json">openapi.json</a>...</p>
-    # """
 
 #https://fastapi.tiangolo.com/tutorial/path-operation-configuration/#tags
-@app.post('/wallet/sesion', response_model=Sesion_response ,** documentacion_sesion(),tags=["Usuario"])
+@app.post('/wallet/sesion',response_model=Sesion_response,**documentacion_sesion(),tags=["Usuario"])
 async def sesion(usuario: Usuario):
     
     username = usuario.username # data.get("username")
     password = usuario.password #data.get("password")
     user = autenticate_user(USERS_DB, username,password)
-#     async def token(form_data: OAuth2PasswordRequestForm = Depends()):
-#     user = autenticate_user(USERS_DB, form_data.username, form_data.password)
-    access_token_expires = timedelta(minutes=30)
-    access_token_JWT = create_token({"sub": user.username}, access_token_expires)
 
+    expires_in_seconds = timedelta(minutes=30)  # 30 minutos en segundos
+    # Convertir timedelta a segundos formato 1800 para devolver en el response
+    seconds = int(expires_in_seconds.total_seconds())
+
+    access_token_JWT = create_token({"sub": user.username},expires_in_seconds)
+    
     json = {
             "access_token": access_token_JWT,
             "token_type": "bearer",
-            "access_token_expires": str(access_token_expires)}
+            "access_token_expires": str(seconds)}
     if username == "challenge":
         json.update({"tarjetas": [{"descripcion": "BANCO HIPOTECARIO", "numero": "825840853443"}, {"descripcion": "BANCO HSBC", "numero": "423455721156"}, {"descripcion": "BANCO DE LA PROVINCIA DE BUENOS AIRES", "numero": "595278769781"}]})
     else:
         json.update(generar_json_tarjetas())
-    #sleep(1000)
+
     return json
 
 @app.exception_handler(RequestValidationError)
@@ -254,6 +238,12 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             return JSONResponse(status_code=422, content={"detail": "json invalido"})
         elif "Field required'" in str(exc.body):
             return JSONResponse(status_code=400, content={"detail": "Bad Request"})
+        elif "string_pattern_mismatch" in str(exc):
+            print(str(exc))
+            return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
+        elif "string_too_short" in str(exc):
+            print(str(exc))
+            return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
         elif "string_too_long" in str(exc):
             print(str(exc))
             return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
@@ -268,13 +258,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             return await request.exception_handler(exc)
     except:
             print(str(exc))
-            #return JSONResponse(status_code=500, content={"ssssdetalle": "Error interno del servidor"})
-    
-# @app.exception_handler(RequestValidationError)
-# async def validation_exception_handler(request, exc):
-#     if "json_invalid" in str(exc):
-#         return JSONResponse(status_code=422, content={"detail": "json invalido"})
-#     return await request.exception_handler(exc)
+
 
 @app.post('/wallet/cuentas', response_model=Cuentas_response, **documentacion_cuentas(),tags=["Rutas protegidas"])
 async def cuentas(tarjeta: Tarjeta, user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
@@ -346,17 +330,17 @@ async def ultmovimientos(mov: Movimientos, fecha_desde: str, fecha_hasta: str, u
     
     if user.username == "challenge":
         if mov.numero_cuenta == "99083422":
-            return {"movimientos": [{"fecha": "20230931", "monto": -2878.73, "descripcion": "Retiro de cajero automático"}, {"fecha": "20230831", "monto": -2382.16, "descripcion": "Compra"}, {"fecha": "20230131", "monto": -2818.21, "descripcion": "Retiro de cajero automático"},{"fecha": "20231201", "monto": -2818.21, "descripcion": "Retiro de cajero automático"},{"fecha": "20230131", "monto": -2818.21, "descripcion": "Retiro de cajero automático"}, {"fecha": "20230702", "monto": 3375.00, "descripcion": "Transferencia Credito"}, {"fecha": "20230131", "monto": -9009.80, "descripcion": "Compra"}]}
+            return {"movimientos": [{"fecha": "20230931", "monto": "-2878.73", "descripcion": "Retiro de cajero automático"}, {"fecha": "20230831", "monto": "-2382.16", "descripcion": "Compra"}, {"fecha": "20230131", "monto": "-2818.21", "descripcion": "Retiro de cajero automático"},{"fecha": "20231201", "monto": "-2818.21", "descripcion": "Retiro de cajero automático"},{"fecha": "20230131", "monto": "-2818.21", "descripcion": "Retiro de cajero automático"}, {"fecha": "20230702", "monto": "3375.00", "descripcion": "Transferencia Credito"}, {"fecha": "20230131", "monto": "-9009.80", "descripcion": "Compra"}]}
         elif mov.numero_cuenta == "96703737":
-            return {"movimientos": [{"fecha": "20230123", "monto": 10828.00, "descripcion": "Plazo Fijo ingreso"},{"fecha": "20230831", "monto": -1182.17, "descripcion": "Compra"}, {"fecha": "20230131", "monto": -2382.16, "descripcion": "Compra"}, {"fecha": "20230131", "monto": -2818.21, "descripcion": "Retiro de cajero automático"}, {"fecha": "20230121", "monto": 2575.53, "descripcion": "Compra"}, {"fecha": "20230111", "monto": -9339.8, "descripcion": "Compra"}]}
+            return {"movimientos": [{"fecha": "20230123", "monto": "10828.00", "descripcion": "Plazo Fijo ingreso"},{"fecha": "20230831", "monto": "-1182.17", "descripcion": "Compra"}, {"fecha": "20230131", "monto": "-2382.16", "descripcion": "Compra"}, {"fecha": "20230131", "monto": "-2818.21", "descripcion": "Retiro de cajero automático"}, {"fecha": "20230121", "monto": "2575.53", "descripcion": "Compra"}, {"fecha": "20230111", "monto": "-9339.8", "descripcion": "Compra"}]}
         elif mov.numero_cuenta == "93125576":
-            return {"movimientos": [{"fecha": "20231005", "monto": -118.00, "descripcion": "Retiro de cajero automático"},{"fecha": "20230114", "monto": -2808.10, "descripcion": "Ingreso en efectivo"}, {"fecha": "20231121", "monto": -1.16, "descripcion": "Ingreso en efectivo"}, {"fecha": "20230131", "monto": -2818.21, "descripcion": "Retiro de cajero automático"}, {"fecha": "20230131", "monto": 25575.43, "descripcion": "Depósito en efectivo"}, {"fecha": "20221028", "monto": -9339.00, "descripcion": "Pago de impuestos y servicio"}]}
+            return {"movimientos": [{"fecha": "20231005", "monto": "-118.00", "descripcion": "Retiro de cajero automático"},{"fecha": "20230114", "monto": "-2808.10", "descripcion": "Ingreso en efectivo"}, {"fecha": "20231121", "monto": "-1.16", "descripcion": "Ingreso en efectivo"}, {"fecha": "20230131", "monto": "-2818.21", "descripcion": "Retiro de cajero automático"}, {"fecha": "20230131", "monto": "25575.43", "descripcion": "Depósito en efectivo"}, {"fecha": "20221028", "monto": "-9339.00", "descripcion": "Pago de impuestos y servicio"}]}
         elif mov.numero_cuenta == "1209383422":
-            return {"movimientos": [{"fecha": "20231205", "monto": 5578.00, "descripcion": "Plazo Fijo ingreso"},{"fecha": "20230114", "monto": -2808.10, "descripcion": "Ingreso en efectivo"}, {"fecha": "20231121", "monto": -1.16, "descripcion": "Ingreso en efectivo"}, {"fecha": "20230131", "monto": -2818.21, "descripcion": "Retiro de cajero automático"}, {"fecha": "20230131", "monto": 25575.43, "descripcion": "Depósito en efectivo"}, {"fecha": "20221028", "monto": -9339.00, "descripcion": "Pago de impuestos y servicio"}]}   
+            return {"movimientos": [{"fecha": "20231205", "monto": "5578.00", "descripcion": "Plazo Fijo ingreso"},{"fecha": "20230114", "monto": "-2808.10", "descripcion": "Ingreso en efectivo"}, {"fecha": "20231121", "monto": "-1.16", "descripcion": "Ingreso en efectivo"}, {"fecha": "20230131", "monto": "-2818.21", "descripcion": "Retiro de cajero automático"}, {"fecha": "20230131", "monto": "25575.43", "descripcion": "Depósito en efectivo"}, {"fecha": "20221028", "monto": "-9339.00", "descripcion": "Pago de impuestos y servicio"}]}   
         elif mov.numero_cuenta == "34948473811":
-            return {"movimientos": [{"fecha": "20231205", "monto": 78.00, "descripcion": "Plazo Fijo ingreso"},{"fecha": "20230114", "monto": -2808.10, "descripcion": "Ingreso en efectivo"}, {"fecha": "20231121", "monto": -1.16, "descripcion": "Ingreso en efectivo"}, {"fecha": "20230131", "monto": -28158.21, "descripcion": "Retiro de cajero automático"},{"fecha": "20230114", "monto": -28308.10, "descripcion": "Ingreso en efectivo"}, {"fecha": "20231121", "monto": -31.56, "descripcion": "Ingreso en efectivo"}, {"fecha": "20230131", "monto": -818.21, "descripcion": "Retiro de cajero automático"}, {"fecha": "20230131", "monto": 25075.40, "descripcion": "Depósito en efectivo"}, {"fecha": "20221028", "monto": -7399.00, "descripcion": "Pago de impuestos y servicio"}]}      
+            return {"movimientos": [{"fecha": "20231205", "monto": "78.00", "descripcion": "Plazo Fijo ingreso"},{"fecha": "20230114", "monto": "-2808.10", "descripcion": "Ingreso en efectivo"}, {"fecha": "20231121", "monto": "-1.16", "descripcion": "Ingreso en efectivo"}, {"fecha": "20230131", "monto": "-28158.21", "descripcion": "Retiro de cajero automático"},{"fecha": "20230114", "monto": "-28308.10", "descripcion": "Ingreso en efectivo"}, {"fecha": "20231121", "monto": "-31.56", "descripcion": "Ingreso en efectivo"}, {"fecha": "20230131", "monto": "-818.21", "descripcion": "Retiro de cajero automático"}, {"fecha": "20230131", "monto": "25075.40", "descripcion": "Depósito en efectivo"}, {"fecha": "20221028", "monto": "-7399.00", "descripcion": "Pago de impuestos y servicio"}]}      
         elif mov.numero_cuenta == "102033534534521":
-            return {"movimientos": [{"fecha": "20230123", "monto": 10828.00, "descripcion": "Plazo Fijo ingreso"},{"fecha": "20230831", "monto": -1182.17, "descripcion": "Compra"}, {"fecha": "20230131", "monto": -2382.16, "descripcion": "Compra"}, {"fecha": "20230131", "monto": -2818.21, "descripcion": "Retiro de cajero automático"}, {"fecha": "20230121", "monto": 2575.53, "descripcion": "Compra"}, {"fecha": "20230111", "monto": -9339.8, "descripcion": "Compra"}]}
+            return {"movimientos": [{"fecha": "20230123", "monto": "10828.00", "descripcion": "Plazo Fijo ingreso"},{"fecha": "20230831", "monto": "-1182.17", "descripcion": "Compra"}, {"fecha": "20230131", "monto": "-2382.16", "descripcion": "Compra"}, {"fecha": "20230131", "monto": "-2818.21", "descripcion": "Retiro de cajero automático"}, {"fecha": "20230121", "monto": "2575.53", "descripcion": "Compra"}, {"fecha": "20230111", "monto": "-9339.8", "descripcion": "Compra"}]}
         else: 
            raise HTTPException(status_code=400, detail="Datos inválidos")
     else:    
