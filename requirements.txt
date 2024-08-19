@@ -1,4 +1,5 @@
 babel
+regex
 aiofile==3.8.8
 fastapi==0.112.1
 jose==1.0.0
