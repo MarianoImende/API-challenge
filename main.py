@@ -207,8 +207,8 @@ from fastapi.responses import JSONResponse
 from fastapi.openapi.docs import get_swagger_ui_html
 
 #https://fastapi.tiangolo.com/tutorial/path-operation-configuration/#tags
-@app.post('/wallet/sesion',response_model=Sesion_response,**documentacion_sesion(),tags=["Usuario"],headers: Annotated[SesionHeaders, Header()])
-async def sesion(usuario: Usuario):
+@app.post('/wallet/sesion',response_model=Sesion_response,**documentacion_sesion(),tags=["Usuario"])
+async def sesion(usuario: Usuario,headers: Annotated[SesionHeaders, Header()]):
     
     username = usuario.username # data.get("username")
     password = usuario.password #data.get("password")
