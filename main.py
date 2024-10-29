@@ -70,7 +70,7 @@ Esta API se ha diseñado con un enfoque en la seguridad y la eficiencia. 🚀
 
 Servicio con fines de entrenamiento funcionalidades virtuales
 
-
+Importante: Se sugiere descargar el archivo: '/openapi.json' y importarlo en: https://editor-next.swagger.io/ 
 
 [Base URI:https://walletchallenge-back.onrender.com/]
 """
@@ -266,7 +266,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 
 @app.post('/wallet/cuentas', response_model=Cuentas_response, **documentacion_cuentas(),tags=["Rutas protegidas"])
-async def cuentas(tarjeta: Tarjeta, user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
+async def cuentas(tarjeta: Tarjeta, headers: Annotated[SesionHeaders, Header()], user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
     
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
@@ -288,7 +288,7 @@ async def cuentas(tarjeta: Tarjeta, user: User = Depends(get_user_disable_curren
      return generar_json_cuentas()
      
 @app.post('/wallet/saldo',response_model=Saldo_response,**documentacion_saldo(),tags=["Rutas protegidas"])
-async def saldo(cuenta: Cuenta , user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
+async def saldo(cuenta: Cuenta , headers: Annotated[SesionHeaders, Header()], user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
     
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
@@ -317,7 +317,7 @@ async def saldo(cuenta: Cuenta , user: User = Depends(get_user_disable_current),
         return json_generado
     
 @app.post('/wallet/ultmovimientos', response_model=movimiento_respuesta, **documentacion_mov(),tags=["Rutas protegidas"])
-async def ultmovimientos(mov: Movimientos, fecha_desde: str, fecha_hasta: str, user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
+async def ultmovimientos(mov: Movimientos, headers: Annotated[SesionHeaders, Header()],fecha_desde: str, fecha_hasta: str, user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
    
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
@@ -353,7 +353,7 @@ async def ultmovimientos(mov: Movimientos, fecha_desde: str, fecha_hasta: str, u
 
     
 @app.post('/wallet/pago', response_model=PagoRespuesta,tags=["Rutas protegidas"])
-async def pago(Pago_request: PagoRequest): #, user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)
+async def pago(Pago_request: PagoRequest,headers: Annotated[SesionHeaders, Header()]): #, user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)
 
     # Extraer datos del modelo de solicitud
     qr_id = Pago_request.qr_id
@@ -392,7 +392,7 @@ async def pago(Pago_request: PagoRequest): #, user: User = Depends(get_user_disa
     return response_data
 
 @app.delete('/wallet/logout', **documentacion_loout(),tags=["Rutas protegidas"])
-async def logout(token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
+async def logout(headers: Annotated[SesionHeaders, Header()], token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
     
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')  
@@ -406,7 +406,7 @@ async def logout(token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
     return {" message": "Has cerrado sesión exitosamente"}
 
 @app.get('/wallet/estado', **documentacion_estado(),tags=["Rutas protegidas"])
-async def estado(user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):#str = Depends(oauth2_scheme) determina que la ruta es privada
+async def estado(headers: Annotated[SesionHeaders, Header()],user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):#str = Depends(oauth2_scheme) determina que la ruta es privada
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
     return user
