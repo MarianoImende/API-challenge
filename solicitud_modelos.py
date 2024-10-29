@@ -21,7 +21,7 @@ class Usuario(BaseModel):
     #password: str = Field(..., examples=["challenge"])
 
 class SesionHeaders(BaseModel):
-    Content-Type = {"extra": "forbid"}
+    Content-Type: str
     Authorization: str
 
 #/wallet/cuentas    
