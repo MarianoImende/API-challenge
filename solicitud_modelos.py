@@ -22,7 +22,7 @@ class Usuario(BaseModel):
 
 class SesionHeaders(BaseModel):
     Content_Type: str = "application/json"
-    Authorization: str
+    Authorization: str = "Bearer"
 
 #/wallet/cuentas    
 class Tarjeta(BaseModel):
