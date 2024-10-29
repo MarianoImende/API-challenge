@@ -60,6 +60,8 @@ saldo_CC_USD_93125576 = Decimal('545623.13')
 
 #--------------------------------------------------------------------------------------------------
 description = """
+[Base URI:https://walletchallenge-back.onrender.com/]
+
 La API de Wallet es un servicio que brinda a los usuarios la capacidad de gestionar 
 sus cuentas
 
