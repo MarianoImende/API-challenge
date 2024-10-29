@@ -21,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 from fastapi.openapi.utils import get_openapi
 from respuesta_modelos import Cuentas_response, PagoRespuesta, Saldo_response, Sesion_response, movimiento_respuesta
-from solicitud_modelos import Movimientos, PagoRequest, Tarjeta, Usuario, Cuenta
+from solicitud_modelos import Movimientos, PagoRequest, Tarjeta, Usuario, Cuenta,SesionHeaders
 from decimal import Decimal
 
 app = FastAPI(description="API-Wallet", version="0.1.0")
@@ -205,7 +205,7 @@ from fastapi.responses import JSONResponse
 from fastapi.openapi.docs import get_swagger_ui_html
 
 #https://fastapi.tiangolo.com/tutorial/path-operation-configuration/#tags
-@app.post('/wallet/sesion',response_model=Sesion_response,**documentacion_sesion(),tags=["Usuario"],headers: Annotated[CommonHeaders, Header()])
+@app.post('/wallet/sesion',response_model=Sesion_response,**documentacion_sesion(),tags=["Usuario"],headers: Annotated[SesionHeaders, Header()])
 async def sesion(usuario: Usuario):
     
     username = usuario.username # data.get("username")
