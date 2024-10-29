@@ -3,7 +3,7 @@ from babel.numbers import format_currency
 import json
 from aiofile import async_open
 from asyncio import sleep
-from typing import Union
+from typing import Union, Annotated
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse, JSONResponse
