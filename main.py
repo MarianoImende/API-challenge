@@ -60,7 +60,6 @@ saldo_CC_USD_93125576 = Decimal('545623.13')
 
 #--------------------------------------------------------------------------------------------------
 description = """
-[Base URI:https://walletchallenge-back.onrender.com/]
 
 La API de Wallet es un servicio que brinda a los usuarios la capacidad de gestionar 
 sus cuentas
@@ -70,6 +69,10 @@ bancarias,realizar transacciones y acceder de forma segura a su información fin
 Esta API se ha diseñado con un enfoque en la seguridad y la eficiencia. 🚀
 
 Servicio con fines de entrenamiento funcionalidades virtuales
+
+
+
+[Base URI:https://walletchallenge-back.onrender.com/]
 """
 def custom_openapi():
     if not app.openapi_schema:
