@@ -20,6 +20,9 @@ class Usuario(BaseModel):
     #username: str = Field(..., examples=["challenge"],min_length=9, max_length=9, pattern=r"bearer")
     #password: str = Field(..., examples=["challenge"])
 
+class SesionHeaders(BaseModel):
+    Content-Type = {"extra": "forbid"}
+    Authorization: str
 
 #/wallet/cuentas    
 class Tarjeta(BaseModel):
