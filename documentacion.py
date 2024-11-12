@@ -84,7 +84,7 @@ def documentacion_sesion() -> Dict:
                                 "access_token_expires": {
                                     "type": "string",
                                     "description": "Tiempo de expiración del token en segundos",
-                                    "pattern": "^\d+$"
+                                    "pattern": "^\\d+$"
                                 },
                                 "tarjetas": {
                                     "type": "array",
@@ -94,7 +94,7 @@ def documentacion_sesion() -> Dict:
                                             "descripcion": {
                                                 "type": "string",
                                                 "description": "Nombre del banco",
-                                                "pattern": "^[A-Z\s]{1,20}$"
+                                                "pattern": "^[A-Z\\s]{1,10}$"
                                             },
                                             "numero": {
                                                 "type": "string",
