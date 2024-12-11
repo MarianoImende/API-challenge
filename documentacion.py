@@ -1,13 +1,11 @@
 from ast import Dict
-
-                
-                
+            
 #https://fastapi.tiangolo.com/advanced/additional-responses/
 def documentacion_sesion() -> Dict:
 
         documentation = {
         "summary": "Crear un nuevo token",
-        "description": "Ejemplo de solicitud:",
+        "description": "Enviando credenciales validas, el método devuelve un token JWT que debe ser utilizado en los demás recursos del servicio.",
         "response_description": "Access token creado satisfactoriamente",
         "openapi_extra":{"requestBody": {
             "content": {
@@ -52,7 +50,7 @@ def documentacion_sesion() -> Dict:
                         "example": {
                             "access_token": "uyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjaGFsbGVuZ2UiLCJleHAiOjE3MTA0Mjc0NTJ9.7dB7Oo-5xumCSq0uY1_eujdlZB8OOgbSULrtx65uGv0",
                             "token_type": "bearer",
-                            "access_token_expires": "1800",
+                            "access_token_expires": 1800,
                             "tarjetas": [
                                 {
                                     "descripcion": "BANCO HIPOTECARIO",
@@ -74,7 +72,7 @@ def documentacion_sesion() -> Dict:
                                 "access_token": {
                                     "type": "string",
                                     "description": "Token de acceso JWT",
-                                    "pattern": "^[A-Za-z0-9-_]{20,40}\.[A-Za-z0-9-_]{20,200}\.[A-Za-z0-9-_]{43,64}$"
+                                    "pattern": "^[a-zA-Z0-9]{20,40}\.[a-zA-Z0-9]+\.[a-zA-Z0-9_-]+$"
                                 },
                                 "token_type": {
                                     "type": "string",
@@ -82,9 +80,9 @@ def documentacion_sesion() -> Dict:
                                     "pattern": "^bearer$"
                                 },
                                 "access_token_expires": {
-                                    "type": "string",
+                                    "type": "number",
                                     "description": "Tiempo de expiración del token en segundos",
-                                    "pattern": "^\\d+$"
+                                    "pattern": "^\d+$"
                                 },
                                 "tarjetas": {
                                     "type": "array",
@@ -94,7 +92,7 @@ def documentacion_sesion() -> Dict:
                                             "descripcion": {
                                                 "type": "string",
                                                 "description": "Nombre del banco",
-                                                "pattern": "^[A-Z\\s]{1,10}$"
+                                                "pattern": "^[A-Z\s]{1,20}$"
                                             },
                                             "numero": {
                                                 "type": "string",
