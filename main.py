@@ -68,11 +68,11 @@ bancarias,realizar transacciones y acceder de forma segura a su información fin
  
 Esta API se ha diseñado con un enfoque en la seguridad y la eficiencia. 🚀
 
-Servicio con fines de entrenamiento funcionalidades virtuales
-
-Importante: Se sugiere descargar el archivo: '/openapi.json' e importarlo en: https://editor-next.swagger.io/ 
+Servicio con fines de entrenamiento. Funcionalidades virtuales.
 
 [Base URI:https://walletchallenge-back.onrender.com/]
+-----------------------------------------------------
+
 """
 def custom_openapi():
     if not app.openapi_schema:
