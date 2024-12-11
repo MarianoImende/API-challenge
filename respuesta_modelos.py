@@ -17,7 +17,7 @@ class Sesion_response(BaseModel):
 
     access_token: str
     token_type: str
-    access_token_expires: str
+    access_token_expires: int
     tarjetas: Optional[List[Tarjeta]]
 
 #/wallet/cuentas
