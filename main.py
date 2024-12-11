@@ -241,12 +241,14 @@ async def sesion(usuario: Usuario):
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
-        try:        
+            try:     
+            print(str(exc))   
             """Maneja las excepciones de validación de solicitud."""
-            keywords = ["json_invalid", "model_attributes_type", "missing"]
+            keywords = ["json_invalid", "model_attributes_type"]
             if any(keyword in str(exc) for keyword in keywords):
                 return JSONResponse(status_code=422, content={"detail": "json invalido"})
-            elif "Field required" in str(exc):
+            Bad_Requests = ["missing","Field required"]
+            if any(Bad in str(exc) for Bad in Bad_Requests):
                 return JSONResponse(status_code=400, content={"detail": "Bad Request"})
             elif "string_pattern_mismatch" in str(exc):
                 print(str(exc))
