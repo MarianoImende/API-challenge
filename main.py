@@ -241,35 +241,34 @@ async def sesion(usuario: Usuario):
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    try:
-        
-        """Maneja las excepciones de validación de solicitud."""
-        if "json_invalid" in str(exc):
-            return JSONResponse(status_code=422, content={"detail": "json invalido"})
-        elif "Field required'" in str(exc.body):
-            return JSONResponse(status_code=400, content={"detail": "Bad Request"})
-        elif "string_pattern_mismatch" in str(exc):
-            print(str(exc))
-            return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
-        elif "string_too_short" in str(exc):
-            print(str(exc))
-            return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
-        elif "string_too_long" in str(exc):
-            print(str(exc))
-            return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
-        elif "No se pudo validar las credenciales" in str(exc):
-            return JSONResponse(status_code=401, content={"detail": "Error de autenticación"})
-        elif "Internal Server Error" in str(exc):
-            return JSONResponse(status_code=500, content={"detail": "Error interno del servidor"})
-        elif "otro_tipo_de_error_adicional" in str(exc):
-            return JSONResponse(status_code=408, content={"detail": "Tiempo de espera excedido"})
-        else:
-        # Manejar otros tipos de errores de validación
-            return await request.exception_handler(exc)
+        try:        
+            """Maneja las excepciones de validación de solicitud."""
+            keywords = ["json_invalid", "model_attributes_type", "missing"]
+            if any(keyword in str(exc) for keyword in keywords):
+                return JSONResponse(status_code=422, content={"detail": "json invalido"})
+            elif "Field required" in str(exc):
+                return JSONResponse(status_code=400, content={"detail": "Bad Request"})
+            elif "string_pattern_mismatch" in str(exc):
+                print(str(exc))
+                return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
+            elif "string_too_short" in str(exc):
+                print(str(exc))
+                return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
+            elif "string_too_long" in str(exc):
+                print(str(exc))
+                return JSONResponse(status_code=400, content={"detail":exc.errors()[0]['msg'] + " - " + str(exc.errors()[0]['input']) + str(exc.errors()[0]['ctx'])})
+            elif "No se pudo validar las credenciales" in str(exc):
+                return JSONResponse(status_code=401, content={"detail": "Error de autenticación"})
+            elif "Internal Server Error" in str(exc):
+                return JSONResponse(status_code=500, content={"detail": "Error interno del servidor"})
+            elif "otro_tipo_de_error_adicional" in str(exc):
+                return JSONResponse(status_code=408, content={"detail": "Tiempo de espera excedido"})
+            else:
+            # Manejar otros tipos de errores de validación
+                return await request.exception_handler(exc)
     except:
             print(str(exc))
-
-
+        
 @app.post('/wallet/cuentas', response_model=Cuentas_response, **documentacion_cuentas(),tags=["Rutas protegidas"])
 async def cuentas(tarjeta: Tarjeta, headers: Annotated[SesionHeaders, Header()], user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
     
