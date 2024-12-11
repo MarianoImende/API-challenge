@@ -231,7 +231,7 @@ async def sesion(usuario: Usuario):
     json = {
             "access_token": access_token_JWT,
             "token_type": "bearer",
-            "access_token_expires": str(seconds)}
+            "access_token_expires": seconds}
     if username == "challenge":
         json.update({"tarjetas": [{"descripcion": "BANCO HIPOTECARIO", "numero": "825840853443"}, {"descripcion": "BANCO HSBC", "numero": "423455721156"}, {"descripcion": "BANCO DE LA PROVINCIA DE BUENOS AIRES", "numero": "595278769781"}]})
     else:
