@@ -210,6 +210,11 @@ from fastapi.responses import JSONResponse
 from fastapi.openapi.docs import get_swagger_ui_html
 
 #https://fastapi.tiangolo.com/tutorial/path-operation-configuration/#tags
+
+@app.get("/", name="Bienvenida")
+def read_root():
+    return {"mensaje": "Bienvenido a la API"}
+    
 @app.post('/wallet/sesion',response_model=Sesion_response,**documentacion_sesion(),tags=["Usuario"])
 async def sesion(usuario: Usuario):
     
