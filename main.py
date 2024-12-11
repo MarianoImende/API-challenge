@@ -241,7 +241,7 @@ async def sesion(usuario: Usuario):
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
-            try:     
+        try:     
             print(str(exc))   
             """Maneja las excepciones de validación de solicitud."""
             keywords = ["json_invalid", "model_attributes_type"]
@@ -268,7 +268,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             else:
             # Manejar otros tipos de errores de validación
                 return await request.exception_handler(exc)
-    except:
+        except:
             print(str(exc))
         
 @app.post('/wallet/cuentas', response_model=Cuentas_response, **documentacion_cuentas(),tags=["Rutas protegidas"])
