@@ -53,15 +53,15 @@ def documentacion_sesion() -> Dict:
                             "access_token_expires": 1800,
                             "tarjetas": [
                                 {
-                                    "descripcion": "BANCO HIPOTECARIO",
+                                    "descripcion": "NOVA TRUST BANK",
                                     "numero": "825840853443"
                                 },
                                 {
-                                    "descripcion": "BANCO HSBC",
+                                    "descripcion": "TITANIUM FINANCE BANK",
                                     "numero": "423455721156"
                                 },
                                 {
-                                    "descripcion": "BANCO DE LA PROVINCIA DE BUENOS AIRES",
+                                    "descripcion": "ASTRA CAPITAL BANK",
                                     "numero": "595278769781"
                                 }
                             ]
