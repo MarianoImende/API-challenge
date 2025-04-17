@@ -413,7 +413,7 @@ def documentacion_mov() -> dict:
                                         "descripcion": {
                                             "type": "string",
                                             "maxLength": 100,
-                                            "description": "Descripción de la transacción ("maxLength": 100)"
+                                            "description": "Descripción de la transacción (maxLength: 100)"
                                         }
                                     },
                                     "required": [
@@ -824,7 +824,8 @@ def documentacion_pago_qr() -> dict:
                                 "mensaje": {
                                             "type": "string", 
                                             "description": "Mensaje de confirmación del resultado"
-                                            "pattern": "^.{1,30}$"},
+                                            "pattern": "^.{1,30}$"
+                                            },
                                 "estado": {
                                     "type": "string",
                                     "pattern": "^(aprobado|rechazado|pendiente)$",
