@@ -397,7 +397,7 @@ async def pago(Pago_request: PagoRequest,headers: Annotated[SesionHeaders, Heade
 
     return response_data
 
-@app.delete('/wallet/logout', **documentacion_loout(),tags=["Rutas protegidas"])
+@app.delete('/wallet/logout', **documentacion_logout(),tags=["Rutas protegidas"])
 async def logout(headers: Annotated[SesionHeaders, Header()], token: HTTPAuthorizationCredentials = Depends(auth_scheme)):
     
     if not validate_token(token.credentials): #valido la deshabilitacion del token
