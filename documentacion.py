@@ -776,7 +776,7 @@ def documentacion_pago_qr() -> dict:
                             "qr": "00020101021153039865802AR...",
                             "Importe": {"valor": 12500.5, "moneda": "ARS"},
                             "pagador": {
-                                "nombre": "LucÃ­a GonzÃ¡lez",
+                                "nombre": "Luc­as González",
                                 "numero_identificador": "99083422",
                                 "documento": {"tipo": "DNI", "numero": "30123456"},
                                 "cuenta": {"numero": "99083422", "tipo": "CA $"},
@@ -797,7 +797,7 @@ def documentacion_pago_qr() -> dict:
                 "content": {
                     "application/json": {
                         "example": {
-                            "mensaje": "El pago fue procesado con Ã©xito",
+                            "mensaje": "El pago fue procesado con éxito",
                             "estado": "aprobado",
                             "codigo_autorizacion": "APROB123456"
                         },
