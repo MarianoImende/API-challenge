@@ -9,7 +9,7 @@ def documentacion_sesion() -> dict:
     "response_description": "Access token creado satisfactoriamente",
     "openapi_extra": {
         "requestBody": {
-            "required": true,
+            "required": True,
             "content": {
                 "application/json": {
                     "schema": {
@@ -232,7 +232,7 @@ def documentacion_cuentas() -> dict:
     },
     "openapi_extra": {
         "requestBody": {
-            "required": true,
+            "required": True,
             "content": {
                 "application/json": {
                     "schema": {
@@ -347,7 +347,7 @@ def documentacion_saldo() -> dict:
     },
     "openapi_extra": {
         "requestBody": {
-            "required": true,
+            "required": True,
             "content": {
                 "application/json": {
                     "schema": {
@@ -491,7 +491,7 @@ def documentacion_mov() -> dict:
     },
     "openapi_extra": {
         "requestBody": {
-            "required": true,
+            "required": True,
             "content": {
                 "application/json": {
                     "schema": {
