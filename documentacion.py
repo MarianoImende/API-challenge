@@ -80,9 +80,9 @@ def documentacion_sesion() -> Dict:
                                     "pattern": "^bearer$"
                                 },
                                 "access_token_expires": {
-                                    "type": "number",
-                                    "description": "Tiempo de expiración del token en segundos",
-                                    "pattern": "^\d+$"
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "description":"Tiempo de expiración del token en segundos (entero positivo). Equivale a una expresión regular tipo: ^\\d+$\n"",
                                 },
                                 "tarjetas": {
                                     "type": "array",
