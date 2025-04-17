@@ -823,8 +823,8 @@ def documentacion_pago_qr() -> dict:
                             "properties": {
                                 "mensaje": {
                                             "type": "string", 
-                                            "description": "Mensaje de confirmación del resultado"
-                                            "pattern": "^.{1,30}$"
+                                            "description": "Mensaje de confirmación del resultado",
+                                            "pattern": "^{1,30}$"
                                             },
                                 "estado": {
                                     "type": "string",
