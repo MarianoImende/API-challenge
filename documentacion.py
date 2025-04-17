@@ -821,13 +821,18 @@ def documentacion_pago_qr() -> dict:
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "mensaje": {"type": "string", "description": "Mensaje de confirmación del resultado"},
+                                "mensaje": {
+                                            "type": "string", 
+                                            "description": "Mensaje de confirmación del resultado"
+                                            "pattern": "^.{1,30}$"},
                                 "estado": {
                                     "type": "string",
                                     "pattern": "^(aprobado|rechazado|pendiente)$",
                                     "description": "Estado final del procesamiento del pago"
                                 },
-                                "codigo_autorizacion": {"type": "string", "description": "Código de autorización emitido"}
+                                "codigo_autorizacion": {"type": "string", 
+                                                        "description": "Código de autorización emitido",
+                                                        "pattern": "^(APROB[0-9]{6}|RECHA[0-9]{6}|PEND[0-9]{6})$"}
                             }
                         }
                     }
