@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse, JSONResponse
 #from documentacion import documentacion_cuentas, documentacion_estado, documentacion_loout, documentacion_mov, documentacion_saldo, documentacion_sesion
-from documentacion import documentacion_cuentas, documentacion_estado, documentacion_logout, documentacion_mov, documentacion_saldo, documentacion_sesion
+from documentacion import documentacion_cuentas, documentacion_estado, documentacion_logout, documentacion_mov, documentacion_saldo, documentacion_sesion,documentacion_pago_qr
 from genSaldo import generar_json_saldo
 from genTarjetas import generar_json_tarjetas
 from genCuentas import generar_json_cuentas
