@@ -413,7 +413,7 @@ def documentacion_mov() -> dict:
                                         "descripcion": {
                                             "type": "string",
                                             "maxLength": 100,
-                                            "description": "Descripción de la transacción"
+                                            "description": "Descripción de la transacción ("maxLength": 100)"
                                         }
                                     },
                                     "required": [
