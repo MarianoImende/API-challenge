@@ -680,7 +680,6 @@ def documentacion_logout() -> dict:
     }
 }
 
-
 def documentacion_pago_qr() -> dict:
     return {
         "summary": "Procesa un pago a por medio de QR",
@@ -694,62 +693,78 @@ def documentacion_pago_qr() -> dict:
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "qr_id": {"type": "string"},
-                                "qr": {"type": "string"},
+                                "qr_id": {"type": "string", "description": "Identificador único del código QR generado"},
+                                "qr": {"type": "string", "description": "Contenido completo del código QR interoperable"},
                                 "Importe": {
                                     "type": "object",
+                                    "description": "Datos del importe a pagar",
                                     "properties": {
-                                        "valor": {"type": "number", "minimum": 0},
+                                        "valor": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "description": "Valor numérico del importe total"
+                                        },
                                         "moneda": {
                                             "type": "string",
-                                            "pattern": "^[A-Z]{3}$"
+                                            "pattern": "^[A-Z]{3}$",
+                                            "description": "Moneda en formato ISO 4217 (ej: ARS)"
                                         }
                                     },
                                     "required": ["valor", "moneda"]
                                 },
                                 "pagador": {
                                     "type": "object",
+                                    "description": "Información del usuario que realiza el pago",
                                     "properties": {
-                                        "nombre": {"type": "string"},
+                                        "nombre": {"type": "string", "description": "Nombre completo del pagador"},
                                         "numero_identificador": {
                                             "type": "string",
-                                            "pattern": "^[0-9]{6,12}$"
+                                            "pattern": "^[0-9]{6,12}$",
+                                            "description": "Número identificador de la cuenta o del cliente"
                                         },
                                         "documento": {
                                             "type": "object",
+                                            "description": "Documento identificatorio del pagador",
                                             "properties": {
                                                 "tipo": {
                                                     "type": "string",
-                                                    "pattern": "^(DNI|CUIT|LC|LE)$"
+                                                    "pattern": "^(DNI|CUIT|LC|LE)$",
+                                                    "description": "Tipo de documento válido"
                                                 },
                                                 "numero": {
                                                     "type": "string",
-                                                    "pattern": "^[0-9]{7,9}$"
+                                                    "pattern": "^[0-9]{7,9}$",
+                                                    "description": "Número de documento"
                                                 }
                                             },
                                             "required": ["tipo", "numero"]
                                         },
                                         "cuenta": {
                                             "type": "object",
+                                            "description": "Cuenta desde la cual se realiza el pago",
                                             "properties": {
                                                 "numero": {
                                                     "type": "string",
-                                                    "pattern": "^[0-9]{6,12}$"
+                                                    "pattern": "^[0-9]{6,12}$",
+                                                    "description": "Número de cuenta bancaria"
                                                 },
                                                 "tipo": {
                                                     "type": "string",
-                                                    "pattern": "^(CA \$|CC \$)$"
+                                                    "pattern": "^(CA \$|CC \$)$",
+                                                    "description": "Tipo de cuenta (Caja de Ahorro o Cuenta Corriente en pesos)"
                                                 }
                                             },
                                             "required": ["numero", "tipo"]
                                         },
                                         "wallet": {
                                             "type": "object",
+                                            "description": "Información de la billetera virtual utilizada",
                                             "properties": {
-                                                "nombre": {"type": "string"},
+                                                "nombre": {"type": "string", "description": "Nombre de la billetera virtual"},
                                                 "cuit": {
                                                     "type": "string",
-                                                    "pattern": "^[0-9]{2}-[0-9]{8}-[0-9]$"
+                                                    "pattern": "^[0-9]{2}-[0-9]{8}-[0-9]$",
+                                                    "description": "CUIT del proveedor de la billetera"
                                                 }
                                             },
                                             "required": ["nombre", "cuit"]
@@ -759,11 +774,13 @@ def documentacion_pago_qr() -> dict:
                                 },
                                 "adquiridor": {
                                     "type": "object",
+                                    "description": "Entidad que recibe el pago",
                                     "properties": {
-                                        "ticket": {"type": "string"},
+                                        "ticket": {"type": "string", "description": "Código del ticket generado por el adquirente"},
                                         "cuil": {
                                             "type": "string",
-                                            "pattern": "^[0-9]{2}-[0-9]{8}-[0-9]$"
+                                            "pattern": "^[0-9]{2}-[0-9]{8}-[0-9]$",
+                                            "description": "CUIL de la entidad adquirente"
                                         }
                                     },
                                     "required": ["ticket", "cuil"]
@@ -776,7 +793,7 @@ def documentacion_pago_qr() -> dict:
                             "qr": "00020101021153039865802AR...",
                             "Importe": {"valor": 12500.5, "moneda": "ARS"},
                             "pagador": {
-                                "nombre": "Luc­as González",
+                                "nombre": "Lucía González",
                                 "numero_identificador": "99083422",
                                 "documento": {"tipo": "DNI", "numero": "30123456"},
                                 "cuenta": {"numero": "99083422", "tipo": "CA $"},
@@ -804,12 +821,13 @@ def documentacion_pago_qr() -> dict:
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "mensaje": {"type": "string"},
+                                "mensaje": {"type": "string", "description": "Mensaje de confirmación del resultado"},
                                 "estado": {
                                     "type": "string",
-                                    "pattern": "^(aprobado|rechazado|pendiente)$"
+                                    "pattern": "^(aprobado|rechazado|pendiente)$",
+                                    "description": "Estado final del procesamiento del pago"
                                 },
-                                "codigo_autorizacion": {"type": "string"}
+                                "codigo_autorizacion": {"type": "string", "description": "Código de autorización emitido"}
                             }
                         }
                     }
@@ -817,3 +835,4 @@ def documentacion_pago_qr() -> dict:
             }
         }
     }
+
