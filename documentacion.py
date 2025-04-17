@@ -5,7 +5,7 @@ from ast import Dict
 def documentacion_sesion() -> dict:
     return {
     "summary": "Crear un nuevo token",
-    "description": "Enviando credenciales v\u00e1lidas, el m\u00e9todo devuelve un token JWT que debe ser utilizado en los dem\u00e1s recursos del servicio.",
+    "description": "Enviando credenciales válidas, el método devuelve un token JWT que debe ser utilizado en los demás recursos del servicio.",
     "response_description": "Access token creado satisfactoriamente",
     "openapi_extra": {
         "requestBody": {
@@ -17,7 +17,7 @@ def documentacion_sesion() -> dict:
                         "properties": {
                             "username": {
                                 "type": "string",
-                                "description": "Permite solo caracteres alfanum\u00e9ricos (may\u00fasculas, min\u00fasculas, n\u00fameros). Longitud: 6 a 10 caracteres.",
+                                "description": "Permite solo caracteres alfanuméricos (mayúsculas, minúsculas, números). Longitud: 6 a 10 caracteres.",
                                 "pattern": "^[a-zA-Z0-9]{6,10}$",
                                 "minLength": 6,
                                 "maxLength": 10,
@@ -27,7 +27,7 @@ def documentacion_sesion() -> dict:
                             },
                             "password": {
                                 "type": "string",
-                                "description": "Debe tener 8 caracteres exactos, al menos una letra may\u00fascula, un n\u00famero y uno de los s\u00edmbolos '+', '*', '-'.",
+                                "description": "Debe tener 8 caracteres exactos, al menos una letra mayúscula, un número y uno de los símbolos '+', '*', '-'.",
                                 "pattern": "^(?=.*[A-Z])(?=.*[+*-])(?=.*[0-9]).{8}$",
                                 "minLength": 8,
                                 "maxLength": 8,
@@ -53,7 +53,7 @@ def documentacion_sesion() -> dict:
     },
     "responses": {
         "200": {
-            "description": "Sesi\u00f3n iniciada exitosamente",
+            "description": "Sesión iniciada exitosamente",
             "content": {
                 "application/json": {
                     "schema": {
@@ -62,7 +62,7 @@ def documentacion_sesion() -> dict:
                             "access_token": {
                                 "type": "string",
                                 "description": "Token de acceso JWT",
-                                "pattern": "^[a-zA-Z0-9]{20,40}\\.[a-zA-Z0-9]+\\.[a-zA-Z0-9_-]+$"
+                                "pattern": "^[a-zA-Z0-9]{20,40}\.[a-zA-Z0-9]+\.[a-zA-Z0-9_-]+$"
                             },
                             "token_type": {
                                 "type": "string",
@@ -72,7 +72,7 @@ def documentacion_sesion() -> dict:
                             "access_token_expires": {
                                 "type": "integer",
                                 "minimum": 1,
-                                "description": "Tiempo de expiraci\u00f3n del token en segundos (entero positivo)."
+                                "description": "Tiempo de expiración del token en segundos (entero positivo)."
                             },
                             "tarjetas": {
                                 "type": "array",
@@ -83,11 +83,11 @@ def documentacion_sesion() -> dict:
                                         "descripcion": {
                                             "type": "string",
                                             "description": "Nombre del banco",
-                                            "pattern": "^[A-Z\\s]{1,20}$"
+                                            "pattern": "^[A-Z\s]{1,20}$"
                                         },
                                         "numero": {
                                             "type": "string",
-                                            "description": "N\u00famero de tarjeta",
+                                            "description": "Número de tarjeta",
                                             "pattern": "^[0-9]{15,19}$"
                                         }
                                     }
@@ -123,8 +123,8 @@ def documentacion_sesion() -> dict:
 
 def documentacion_cuentas() -> dict:
     return {
-    "summary": "Obtiene cuentas en base al n\u00famero de tarjeta enviado",
-    "description": "Se debe enviar el n\u00famero de tarjeta en la solicitud.",
+    "summary": "Obtiene cuentas en base al número de tarjeta enviado",
+    "description": "Se debe enviar el número de tarjeta en la solicitud.",
     "response_description": "Listado de cuentas asociadas a la tarjeta",
     "responses": {
         "200": {
@@ -150,11 +150,11 @@ def documentacion_cuentas() -> dict:
                                         "numero_cuenta": {
                                             "type": "string",
                                             "pattern": "^[0-9]{6,12}$",
-                                            "description": "N\u00famero de cuenta bancaria (6 a 12 d\u00edgitos)"
+                                            "description": "Número de cuenta bancaria (6 a 12 dígitos)"
                                         },
                                         "tipo": {
                                             "type": "string",
-                                            "pattern": "^[A-Z\\s$]{2,10}$",
+                                            "pattern": "^[A-Z\s$]{2,10}$",
                                             "description": "Tipo de cuenta (Ej: CA $, CC $)"
                                         }
                                     },
@@ -170,18 +170,18 @@ def documentacion_cuentas() -> dict:
             }
         },
         "504": {
-            "description": "N\u00famero de tarjeta inv\u00e1lido",
+            "description": "Número de tarjeta inválido",
             "content": {
                 "application/json": {
                     "example": {
-                        "detail": "El campo 'numero_tarjeta' es inv\u00e1lido."
+                        "detail": "El campo 'numero_tarjeta' es inválido."
                     },
                     "schema": {
                         "type": "object",
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -201,7 +201,7 @@ def documentacion_cuentas() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -221,7 +221,7 @@ def documentacion_cuentas() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -241,7 +241,7 @@ def documentacion_cuentas() -> dict:
                             "numero_tarjeta": {
                                 "type": "string",
                                 "pattern": "^[0-9]{15,19}$",
-                                "description": "N\u00famero de tarjeta v\u00e1lido (15 a 19 d\u00edgitos)"
+                                "description": "Número de tarjeta válido (15 a 19 dígitos)"
                             }
                         },
                         "required": [
@@ -260,8 +260,8 @@ def documentacion_cuentas() -> dict:
 
 def documentacion_saldo() -> dict:
     return {
-    "summary": "Obtiene el saldo en base a un n\u00famero de cuenta.",
-    "description": "Se requiere el n\u00famero de cuenta para obtener el saldo.",
+    "summary": "Obtiene el saldo en base a un número de cuenta.",
+    "description": "Se requiere el número de cuenta para obtener el saldo.",
     "response_description": "Informa el saldo de la cuenta",
     "responses": {
         "200": {
@@ -277,7 +277,7 @@ def documentacion_saldo() -> dict:
                             "saldo": {
                                 "type": "string",
                                 "pattern": "^[0-9]+(,[0-9]{2})?$",
-                                "description": "Saldo en formato num\u00e9rico con coma decimal"
+                                "description": "Saldo en formato numérico con coma decimal"
                             }
                         }
                     }
@@ -285,18 +285,18 @@ def documentacion_saldo() -> dict:
             }
         },
         "400": {
-            "description": "N\u00famero de cuenta inv\u00e1lido",
+            "description": "Número de cuenta inválido",
             "content": {
                 "application/json": {
                     "example": {
-                        "detail": "El campo 'numero' es inv\u00e1lido"
+                        "detail": "El campo 'numero' es inválido"
                     },
                     "schema": {
                         "type": "object",
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -316,7 +316,7 @@ def documentacion_saldo() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -336,7 +336,7 @@ def documentacion_saldo() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -356,7 +356,7 @@ def documentacion_saldo() -> dict:
                             "numero": {
                                 "type": "string",
                                 "pattern": "^[0-9]{6,12}$",
-                                "description": "N\u00famero de cuenta entre 6 y 12 d\u00edgitos"
+                                "description": "Número de cuenta entre 6 y 12 dígitos"
                             }
                         },
                         "required": [
@@ -376,7 +376,7 @@ def documentacion_saldo() -> dict:
 def documentacion_mov() -> dict:
     return {
     "summary": "Obtiene los movimientos por rango de fechas",
-    "description": "Se debe enviar el n\u00famero de cuenta y el rango de fechas.",
+    "description": "Se debe enviar el número de cuenta y el rango de fechas.",
     "response_description": "Informa los movimientos de la cuenta",
     "responses": {
         "200": {
@@ -402,18 +402,18 @@ def documentacion_mov() -> dict:
                                     "properties": {
                                         "fecha": {
                                             "type": "string",
-                                            "pattern": "^\\d{8}$",
+                                            "pattern": "^\d{8}$",
                                             "description": "Fecha en formato YYYYMMDD"
                                         },
                                         "monto": {
                                             "type": "string",
-                                            "pattern": "^[0-9]+(\\.[0-9]{2})?$",
+                                            "pattern": "^[0-9]+(\.[0-9]{2})?$",
                                             "description": "Monto en formato decimal (Ej: 20000.00)"
                                         },
                                         "descripcion": {
                                             "type": "string",
                                             "maxLength": 100,
-                                            "description": "Descripci\u00f3n de la transacci\u00f3n"
+                                            "description": "Descripción de la transacción"
                                         }
                                     },
                                     "required": [
@@ -429,18 +429,18 @@ def documentacion_mov() -> dict:
             }
         },
         "400": {
-            "description": "Datos inv\u00e1lidos",
+            "description": "Datos inválidos",
             "content": {
                 "application/json": {
                     "example": {
-                        "detail": "Datos inv\u00e1lidos"
+                        "detail": "Datos inválidos"
                     },
                     "schema": {
                         "type": "object",
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -460,7 +460,7 @@ def documentacion_mov() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -480,7 +480,7 @@ def documentacion_mov() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -500,16 +500,16 @@ def documentacion_mov() -> dict:
                             "numero": {
                                 "type": "string",
                                 "pattern": "^[0-9]{6,12}$",
-                                "description": "N\u00famero de cuenta entre 6 y 12 d\u00edgitos"
+                                "description": "Número de cuenta entre 6 y 12 dígitos"
                             },
                             "desde": {
                                 "type": "string",
-                                "pattern": "^\\d{8}$",
+                                "pattern": "^\d{8}$",
                                 "description": "Fecha inicial en formato YYYYMMDD"
                             },
                             "hasta": {
                                 "type": "string",
-                                "pattern": "^\\d{8}$",
+                                "pattern": "^\d{8}$",
                                 "description": "Fecha final en formato YYYYMMDD"
                             }
                         },
@@ -534,11 +534,11 @@ def documentacion_mov() -> dict:
 def documentacion_estado() -> dict:
     return {
     "summary": "Obtiene el estado del usuario",
-    "description": "No se debe enviar un body. Solo se requiere un token v\u00e1lido en el header Authorization (usando el candado en /docs).",
+    "description": "No se debe enviar un body. Solo se requiere un token válido en el header Authorization (usando el candado en /docs).",
     "response_description": "Informa el estado del usuario",
     "responses": {
         "200": {
-            "description": "Informaci\u00f3n recuperada satisfactoriamente",
+            "description": "Información recuperada satisfactoriamente",
             "content": {
                 "application/json": {
                     "example": {
@@ -580,7 +580,7 @@ def documentacion_estado() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -600,7 +600,7 @@ def documentacion_estado() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -614,8 +614,8 @@ def documentacion_estado() -> dict:
 
 def documentacion_logout() -> dict:
     return {
-    "summary": "Cierra la sesi\u00f3n",
-    "description": "No se debe enviar un body. Solo se requiere un token v\u00e1lido en el header Authorization (candado en /docs).",
+    "summary": "Cierra la sesión",
+    "description": "No se debe enviar un body. Solo se requiere un token válido en el header Authorization (candado en /docs).",
     "response_description": "Deshabilita el token",
     "responses": {
         "200": {
@@ -623,14 +623,14 @@ def documentacion_logout() -> dict:
             "content": {
                 "application/json": {
                     "example": {
-                        "message": "Has cerrado sesi\u00f3n exitosamente"
+                        "message": "Has cerrado sesión exitosamente"
                     },
                     "schema": {
                         "type": "object",
                         "properties": {
                             "message": {
                                 "type": "string",
-                                "description": "Mensaje de confirmaci\u00f3n de logout"
+                                "description": "Mensaje de confirmación de logout"
                             }
                         }
                     }
@@ -649,7 +649,7 @@ def documentacion_logout() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -669,7 +669,7 @@ def documentacion_logout() -> dict:
                         "properties": {
                             "detail": {
                                 "type": "string",
-                                "pattern": "^[A-Z\u00d1a-z\u00f10-9\\s'\\-\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da,.:]+$",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
                                 "description": "Mensaje de error devuelto por el servidor"
                             }
                         }
@@ -679,3 +679,141 @@ def documentacion_logout() -> dict:
         }
     }
 }
+
+
+def documentacion_pago_qr() -> dict:
+    return {
+        "summary": "Procesa un pago a por medio de QR",
+        "description": "Recibe información del pagador, importe y adquirente a partir de un código QR interoperable.",
+        "response_description": "Pago procesado correctamente",
+        "openapi_extra": {
+            "requestBody": {
+                "required": True,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "qr_id": {"type": "string"},
+                                "qr": {"type": "string"},
+                                "Importe": {
+                                    "type": "object",
+                                    "properties": {
+                                        "valor": {"type": "number", "minimum": 0},
+                                        "moneda": {
+                                            "type": "string",
+                                            "pattern": "^[A-Z]{3}$"
+                                        }
+                                    },
+                                    "required": ["valor", "moneda"]
+                                },
+                                "pagador": {
+                                    "type": "object",
+                                    "properties": {
+                                        "nombre": {"type": "string"},
+                                        "numero_identificador": {
+                                            "type": "string",
+                                            "pattern": "^[0-9]{6,12}$"
+                                        },
+                                        "documento": {
+                                            "type": "object",
+                                            "properties": {
+                                                "tipo": {
+                                                    "type": "string",
+                                                    "pattern": "^(DNI|CUIT|LC|LE)$"
+                                                },
+                                                "numero": {
+                                                    "type": "string",
+                                                    "pattern": "^[0-9]{7,9}$"
+                                                }
+                                            },
+                                            "required": ["tipo", "numero"]
+                                        },
+                                        "cuenta": {
+                                            "type": "object",
+                                            "properties": {
+                                                "numero": {
+                                                    "type": "string",
+                                                    "pattern": "^[0-9]{6,12}$"
+                                                },
+                                                "tipo": {
+                                                    "type": "string",
+                                                    "pattern": "^(CA \$|CC \$)$"
+                                                }
+                                            },
+                                            "required": ["numero", "tipo"]
+                                        },
+                                        "wallet": {
+                                            "type": "object",
+                                            "properties": {
+                                                "nombre": {"type": "string"},
+                                                "cuit": {
+                                                    "type": "string",
+                                                    "pattern": "^[0-9]{2}-[0-9]{8}-[0-9]$"
+                                                }
+                                            },
+                                            "required": ["nombre", "cuit"]
+                                        }
+                                    },
+                                    "required": ["nombre", "numero_identificador", "documento", "cuenta", "wallet"]
+                                },
+                                "adquiridor": {
+                                    "type": "object",
+                                    "properties": {
+                                        "ticket": {"type": "string"},
+                                        "cuil": {
+                                            "type": "string",
+                                            "pattern": "^[0-9]{2}-[0-9]{8}-[0-9]$"
+                                        }
+                                    },
+                                    "required": ["ticket", "cuil"]
+                                }
+                            },
+                            "required": ["qr_id", "qr", "Importe", "pagador", "adquiridor"]
+                        },
+                        "example": {
+                            "qr_id": "QR123456789",
+                            "qr": "00020101021153039865802AR...",
+                            "Importe": {"valor": 12500.5, "moneda": "ARS"},
+                            "pagador": {
+                                "nombre": "LucÃ­a GonzÃ¡lez",
+                                "numero_identificador": "99083422",
+                                "documento": {"tipo": "DNI", "numero": "30123456"},
+                                "cuenta": {"numero": "99083422", "tipo": "CA $"},
+                                "wallet": {"nombre": "Wallet Argentina", "cuit": "20-30123456-3"}
+                            },
+                            "adquiridor": {
+                                "ticket": "TCK123456789",
+                                "cuil": "27-27888999-7"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Pago realizado correctamente",
+                "content": {
+                    "application/json": {
+                        "example": {
+                            "mensaje": "El pago fue procesado con Ã©xito",
+                            "estado": "aprobado",
+                            "codigo_autorizacion": "APROB123456"
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "mensaje": {"type": "string"},
+                                "estado": {
+                                    "type": "string",
+                                    "pattern": "^(aprobado|rechazado|pendiente)$"
+                                },
+                                "codigo_autorizacion": {"type": "string"}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
