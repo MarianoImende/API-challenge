@@ -358,7 +358,7 @@ async def ultmovimientos(mov: Movimientos, headers: Annotated[SesionHeaders, Hea
            return generarFechas(fecha_desde,fecha_hasta)
 
     
-@app.post('/wallet/pago',documentacion_pago_qr(), response_model=PagoRespuesta,tags=["Rutas protegidas"])
+@app.post('/wallet/pago',**documentacion_pago_qr(), response_model=PagoRespuesta,tags=["Rutas protegidas"])
 async def pago(Pago_request: PagoRequest,headers: Annotated[SesionHeaders, Header()]): #, user: User = Depends(get_user_disable_current),token: HTTPAuthorizationCredentials = Depends(auth_scheme)
 
     # Extraer datos del modelo de solicitud
