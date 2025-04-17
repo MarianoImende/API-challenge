@@ -82,7 +82,7 @@ def documentacion_sesion() -> Dict:
                                 "access_token_expires": {
                                     "type": "integer",
                                     "minimum": 1,
-                                    "description":"Tiempo de expiración del token en segundos (entero positivo). Equivale a una expresión regular tipo: ^\\d+$\n"",
+                                    "description":"Tiempo de expiración del token en segundos (entero positivo). Equivale a una expresión regular tipo: ^\d+$",
                                 },
                                 "tarjetas": {
                                     "type": "array",
