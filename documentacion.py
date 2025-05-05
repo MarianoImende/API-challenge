@@ -14,6 +14,10 @@ def documentacion_bienvenida() -> dict:
                     "application/json": {
                         {"mensaje": "Bienvenido a la API",
                         "Contrato":"/docs"}
+                    },
+                    "example": {
+                        "mensaje": "Bienvenido a la API",
+                        "Contrato":"/docs"
                     }
                 }
             }            
@@ -63,7 +67,7 @@ def documentacion_sesion() -> dict:
                     },
                     "example": {
                         "username": "challenge",
-                        "password": "M1i+sqss"
+                        "password": "challenge"
                     }
                 }
             }
