@@ -5,15 +5,15 @@ from ast import Dict
 def documentacion_bienvenida() -> dict:
     return {
         "summary": "Bienvenida",
-        "description": "Bienvenido a la API:",
-        "response_description": "Bienvenido a la API",
+        "description": "Bienvenido a la API de entrenamiento:",
+        "response_description": "Bienvenido a la API de entrenamiento",
         "responses": {
             200: {
-                "description": "Bienvenido a la API",
+                "description": "Bienvenido a la API de entrenamiento",
                 "content": {
                     "application/json": {
                         "example": {
-                            "mensaje": "Bienvenido a la API",
+                            "mensaje": "Bienvenido a la API de entrenamiento",
                             "Contrato": "/docs"
                         }
                     }
