@@ -116,7 +116,47 @@ def documentacion_sesion() -> dict:
                     }
                 }
             }
-        }
+        },
+        400: {
+                "description": "Error",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "Bad Request"}
+                    }
+                }
+            },
+        401: {
+                "description": "Error",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "No se pudo validar las credenciales"}
+                    }
+                }
+            },
+        404: {
+                "description": "Error recurso no encontrado",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "Not Found"}
+                    }
+                }
+            },
+         422: {
+                "description": "Error json invalido",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "json invalido"}
+                    }
+                }
+            },
+          500: {
+                "description": "Generic Error",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "Error interno del servidor"}
+                    }
+                }
+            }                
     }
 }
 
