@@ -12,12 +12,10 @@ def documentacion_bienvenida() -> dict:
                 "description": "Bienvenido a la API",
                 "content": {
                     "application/json": {
-                        {"mensaje": "Bienvenido a la API",
-                        "Contrato":"/docs"}
-                    },
-                    "example": {
-                        "mensaje": "Bienvenido a la API",
-                        "Contrato":"/docs"
+                        "example": {
+                            "mensaje": "Bienvenido a la API",
+                            "Contrato": "/docs"
+                        }
                     }
                 }
             }            
