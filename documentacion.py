@@ -136,7 +136,7 @@ def documentacion_sesion() -> dict:
             }
         },
         
-        401: {
+        "401": {
                 "description": "No autorizado",
                 "content": {
                     "application/json": {
@@ -144,7 +144,7 @@ def documentacion_sesion() -> dict:
                     }
                 }
             },
-        404: {
+        "404": {
                 "description": "Recurso no encontrado",
                 "content": {
                     "application/json": {
@@ -152,7 +152,7 @@ def documentacion_sesion() -> dict:
                     }
                 }
             },
-         422: {
+         "422": {
                 "description": "Error json invalido",
                 "content": {
                     "application/json": {
@@ -160,7 +160,7 @@ def documentacion_sesion() -> dict:
                     }
                 }
             },
-          500: {
+          "500": {
                 "description": "Generic Error",
                 "content": {
                     "application/json": {
@@ -168,7 +168,7 @@ def documentacion_sesion() -> dict:
                     }
                 }
             },
-            504: {
+            "504": {
                 "description": "Bad Request",
                 "content": {
                     "application/json": {
@@ -268,6 +268,14 @@ def documentacion_cuentas() -> dict:
                 }
             }
         },
+       "422": {
+                "description": "Error json invalido",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "json invalido"}
+                    }
+                }
+            },
         "500": {
             "description": "Error interno del servidor",
             "content": {
@@ -383,6 +391,14 @@ def documentacion_saldo() -> dict:
                 }
             }
         },
+        "422": {
+                "description": "Error json invalido",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "json invalido"}
+                    }
+                }
+            },
         "500": {
             "description": "Error interno del servidor",
             "content": {
@@ -527,6 +543,14 @@ def documentacion_mov() -> dict:
                 }
             }
         },
+        "422": {
+                "description": "Error json invalido",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "json invalido"}
+                    }
+                }
+            },
         "500": {
             "description": "Error interno del servidor",
             "content": {
@@ -647,6 +671,14 @@ def documentacion_estado() -> dict:
                 }
             }
         },
+         "422": {
+                "description": "Error json invalido",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "json invalido"}
+                    }
+                }
+            },
         "500": {
             "description": "Error interno del servidor",
             "content": {
