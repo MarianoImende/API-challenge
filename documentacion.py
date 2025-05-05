@@ -3,7 +3,7 @@ from ast import Dict
 #https://fastapi.tiangolo.com/advanced/additional-responses/
 
 def documentacion_bienvenida() -> dict:
-    return = {
+    return {
         "summary": "Bienvenida",
         "description": "Bienvenido a la API:",
         "response_description": "Bienvenido a la API",
