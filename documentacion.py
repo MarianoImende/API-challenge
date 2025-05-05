@@ -2,6 +2,27 @@ from ast import Dict
             
 #https://fastapi.tiangolo.com/advanced/additional-responses/
 
+def documentacion_bienvenida() -> dict:
+    documentation = {
+        "summary": "Bienvenida",
+        "description": "Bienvenido a la API:",
+        "response_description": "Bienvenido a la API",
+        "responses": {
+            200: {
+                "description": "Bienvenido a la API",
+                "content": {
+                    "application/json": {
+                        {"mensaje": "Bienvenido a la API",
+                        "Contrato":"/docs"}
+                    }
+                }
+            }            
+        }
+    }
+        return documentation
+
+
+
 def documentacion_sesion() -> dict:
     return {
     "summary": "Crear un nuevo token",
