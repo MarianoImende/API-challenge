@@ -211,8 +211,8 @@ from fastapi.openapi.docs import get_swagger_ui_html
 
 #https://fastapi.tiangolo.com/tutorial/path-operation-configuration/#tags
 
-@app.get("/", name="Bienvenida")
-def read_root():
+@app.get("/", name="Bienvenid@s")
+def read_root(**documentacion_bienvenido()):
     return {"mensaje": "Bienvenido a la API",
             "Contrato":"/docs"}
     
