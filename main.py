@@ -211,10 +211,12 @@ from fastapi.openapi.docs import get_swagger_ui_html
 
 #https://fastapi.tiangolo.com/tutorial/path-operation-configuration/#tags
 
-@app.get("/", name="Bienvenidos")
-def read_root(summary=documentacion_bienvenida()):
-    return {"mensaje": "Bienvenido a la API",
-            "Contrato":"/docs"}
+@app.get("/", name="Bienvenidos", **documentacion_bienvenida())
+def read_root():
+    return {
+        "mensaje": "Bienvenido a la API",
+        "Contrato": "/docs"
+    }
     
 @app.post('/wallet/sesion',response_model=Sesion_response,**documentacion_sesion(),tags=["Usuario"])
 async def sesion(usuario: Usuario):
