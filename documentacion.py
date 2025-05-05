@@ -117,16 +117,9 @@ def documentacion_sesion() -> dict:
                 }
             }
         },
-        400: {
-                "description": "Error",
-                "content": {
-                    "application/json": {
-                        "example": {"detail": "Bad Request"}
-                    }
-                }
-            },
+        
         401: {
-                "description": "Error",
+                "description": "No autorizado",
                 "content": {
                     "application/json": {
                         "example": {"detail": "No se pudo validar las credenciales"}
@@ -134,7 +127,7 @@ def documentacion_sesion() -> dict:
                 }
             },
         404: {
-                "description": "Error recurso no encontrado",
+                "description": "Recurso no encontrado",
                 "content": {
                     "application/json": {
                         "example": {"detail": "Not Found"}
@@ -156,7 +149,15 @@ def documentacion_sesion() -> dict:
                         "example": {"detail": "Error interno del servidor"}
                     }
                 }
-            }                
+            },
+            504: {
+                "description": "Bad Request",
+                "content": {
+                    "application/json": {
+                        "example": {"detail": "Bad Request"}
+                    }
+                }
+            },
     }
 }
 
@@ -209,8 +210,8 @@ def documentacion_cuentas() -> dict:
                 }
             }
         },
-        "504": {
-            "description": "Número de tarjeta inválido",
+        "401": {
+            "description": "Bad request",
             "content": {
                 "application/json": {
                     "example": {
