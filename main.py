@@ -82,11 +82,11 @@ def custom_openapi():
             openapi_version=app.openapi_version,
             description=description,
             terms_of_service=app.terms_of_service,
-            contact={
-                    "name": "Mariano Imende",
-                    "url": "https://automationtesting.ar/",
-                    "email": "imende.mariano@gmail.com.ar",
-            },
+            # contact={
+            #         "name": "Mariano Imende",
+            #         "url": "https://automationtesting.ar/",
+            #         "email": "imende.mariano@gmail.com.ar",
+            # },
             license_info=app.license_info,
             routes=app.routes,
             tags=app.openapi_tags,
@@ -419,3 +419,4 @@ async def estado(headers: Annotated[SesionHeaders, Header()],user: User = Depend
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
     return user
+
