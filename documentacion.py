@@ -605,10 +605,9 @@ def documentacion_mov() -> dict:
                         ]
                     },
                     "example": {
-                        "numero": "99083422",
-                        "desde": "20240101",
-                        "hasta": "20240430"
-                    }
+                                 "numero_cuenta": "99083422",
+                                 "tipo": "CA $"
+                               }
                 }
             }
         }
