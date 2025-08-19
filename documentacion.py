@@ -587,12 +587,12 @@ def documentacion_mov() -> dict:
                                 "pattern": "^[0-9]{6,12}$",
                                 "description": "Número de cuenta entre 6 y 12 dígitos"
                             },
-                            "desde": {
+                            "fecha_desde": {
                                 "type": "string",
                                 "pattern": "^\d{8}$",
                                 "description": "Fecha inicial en formato YYYYMMDD"
                             },
-                            "hasta": {
+                            "fecha_hasta": {
                                 "type": "string",
                                 "pattern": "^\d{8}$",
                                 "description": "Fecha final en formato YYYYMMDD"
