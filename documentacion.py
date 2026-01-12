@@ -441,7 +441,7 @@ def documentacion_saldo() -> dict:
                         ]
                     },
                     "example": {
-                        "numero": "99083422"
+                        "numero_cuenta": "99083422"
                     }
                 }
             }
@@ -888,7 +888,7 @@ def documentacion_pago_qr() -> dict:
                                 "nombre": "Lucía González",
                                 "numero_identificador": "99083422",
                                 "documento": {"tipo": "DNI", "numero": "30123456"},
-                                "cuenta": {"numero": "99083422", "tipo": "CA $"},
+                                "cuenta": {"numero_cuenta": "99083422", "tipo": "CA $"},
                                 "wallet": {"nombre": "Wallet Argentina", "cuit": "20-30123456-3"}
                             },
                             "adquiridor": {
