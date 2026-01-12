@@ -302,22 +302,22 @@ async def saldo(cuenta: Cuenta , headers: Annotated[SesionHeaders, Header()], us
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
     
-    if not cuenta.numero.isdigit() or not cuenta.numero or not isinstance(cuenta.numero, str):
+    if not cuenta.numero_cuenta.isdigit() or not cuenta.numero_cuenta or not isinstance(cuenta.numero_cuenta, str):
            raise HTTPException(status_code=400, detail="El campo 'numero_cuenta' es inválido.")
 
     if user.username == "challenge":
-        if cuenta.numero == "99083422":
+        if cuenta.numero_cuenta == "99083422":
             return {"saldo":saldo_CA_p_99083422,"moneda":"ARS"} #
             #return {"saldo": format_currency(abs(saldo_CA_p_99083422), 'ARS', locale='es_AR'),"moneda":"USD"}
-        elif cuenta.numero == "96703737":
+        elif cuenta.numero_cuenta == "96703737":
             return {"saldo": saldo_CA_p_96703737,"moneda":"ARS"}
-        elif cuenta.numero == "93125576":
+        elif cuenta.numero_cuenta == "93125576":
             return {"saldo": saldo_CC_USD_93125576,"moneda":"USD"}
-        elif cuenta.numero == "1209383422":
+        elif cuenta.numero_cuenta == "1209383422":
             return {"saldo": "$19.209,19"}
-        elif cuenta.numero == "34948473811":
+        elif cuenta.numero_cuenta == "34948473811":
             return {"saldo": "$0.000,00"}
-        elif cuenta.numero == "102033534534521":
+        elif cuenta.numero_cuenta == "102033534534521":
             return {"saldo": "$150498.000,00"}
         # else: ESTA COMENTADO A PROPOSITO
         #   raise HTTPException(status_code=400, detail="El campo 'numero_cuenta' es inválido.")
@@ -419,4 +419,5 @@ async def estado(headers: Annotated[SesionHeaders, Header()],user: User = Depend
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
     return user
+
 
