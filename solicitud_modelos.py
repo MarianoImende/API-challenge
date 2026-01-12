@@ -57,7 +57,7 @@ class Documento(BaseModel):
     numero: str
 
 class Cuenta(BaseModel):
-    numero: str = Field(default=None,examples=["99083422"])
+    numero_cuenta: str = Field(default=None,examples=["99083422"])
     tipo: str =  Field(default=None,examples=["CA $"])
 class Wallet(BaseModel):
     nombre: str
@@ -80,3 +80,4 @@ class PagoRequest(BaseModel):
     Importe: Importe
     pagador: Pagador
     adquiridor: Adquiridor
+
