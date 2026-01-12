@@ -369,7 +369,7 @@ async def pago(Pago_request: PagoRequest,headers: Annotated[SesionHeaders, Heade
     importe = Pago_request.Importe    
     pagador = Pago_request.pagador
     adquiridor = Pago_request.adquiridor
-    cuenta = Pago_request.pagador.cuenta.numero
+    cuenta = Pago_request.pagador.cuenta.numero_cuenta
     # Validar que se proporcionen los datos esenciales
     if not qr_id or not importe or not pagador or not adquiridor:
         raise HTTPException(status_code=400, detail="Datos incompletos en la solicitud")
@@ -419,5 +419,6 @@ async def estado(headers: Annotated[SesionHeaders, Header()],user: User = Depend
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
     return user
+
 
 
