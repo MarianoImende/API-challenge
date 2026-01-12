@@ -318,7 +318,7 @@ def documentacion_cuentas() -> dict:
                         ]
                     },
                     "example": {
-                        "numero_tarjeta": "82584085344322999"
+                        "numero_tarjeta": "825840853443"
                     }
                 }
             }
