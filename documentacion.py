@@ -338,7 +338,7 @@ def documentacion_saldo() -> dict:
             "content": {
                 "application/json": {
                     "example": {
-                        "saldo": "545,00"
+                        "saldo": "545.00"
                     },
                     "schema": {
                         "type": "object",
