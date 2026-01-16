@@ -345,7 +345,7 @@ def documentacion_saldo() -> dict:
                         "properties": {
                             "saldo": {
                                 "type": "string",
-                                "pattern": "^[0-9]+(,[0-9]{2})?$",
+                                "pattern": "^[0-9]+(.[0-9]{2})?$",
                                 "description": "Saldo en formato numérico con coma decimal"
                             }
                         }
