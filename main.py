@@ -53,7 +53,7 @@ disabled_tokens = set()
 
 #_____________________________________________
 
-saldo_CA_p_99083422 = Decimal('1004500.00')
+saldo_CA_p_99083422 = Decimal('1004500.10')
 saldo_CA_p_96703737 = Decimal('234443.23')
 saldo_CC_USD_93125576 = Decimal('545623.13')
 #_____________________________________________
@@ -419,6 +419,7 @@ async def estado(headers: Annotated[SesionHeaders, Header()],user: User = Depend
     if not validate_token(token.credentials): #valido la deshabilitacion del token
            raise HTTPException(status_code=401, detail='Token inválido')
     return user
+
 
 
 
