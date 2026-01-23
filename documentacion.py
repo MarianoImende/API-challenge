@@ -137,7 +137,26 @@ def documentacion_sesion() -> dict:
                 }
             }
         },
-        
+        "400": {
+            "description": "Datos inválidos",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "Bad Request"
+                    },
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "detail": {
+                                "type": "string",
+                                "pattern": "^[A-ZÑa-zñ0-9\s'\-áéíóúÁÉÍÓÚ,.:]+$",
+                                "description": "Mensaje de error devuelto por el servidor"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "401": {
                 "description": "No autorizado",
                 "content": {
@@ -506,7 +525,7 @@ def documentacion_mov() -> dict:
             }
         },
         "400": {
-            "description": "Datos inválidos",
+            "description": "Bad Request",
             "content": {
                 "application/json": {
                     "example": {
