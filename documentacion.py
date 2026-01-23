@@ -190,10 +190,10 @@ def documentacion_sesion() -> dict:
                 }
             },
             "504": {
-                "description": "Bad Request",
+                "description": "Gateway Timeout",
                 "content": {
                     "application/json": {
-                        "example": {"detail": "Bad Request"}
+                        "example": {"detail": "Gateway Timeout"}
                     }
                 }
             },
