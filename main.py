@@ -314,7 +314,7 @@ async def saldo(cuenta: Cuenta , headers: Annotated[SesionHeaders, Header()], us
         elif cuenta.numero_cuenta == "93125576":
             return {"saldo": saldo_CC_USD_93125576,"moneda":"USD"}
         elif cuenta.numero_cuenta == "1209383422":
-            return {"saldo": "$19.209,19"}
+            return {"saldo": "$19.209,19","moneda":"ARS"}
         elif cuenta.numero_cuenta == "34948473811":
             return {"saldo": "$0.000,00"}
         elif cuenta.numero_cuenta == "102033534534521":
