@@ -109,6 +109,11 @@ def documentacion_sesion() -> dict:
                                             "type": "string",
                                             "description": "Número de tarjeta",
                                             "pattern": "^[0-9]{15,19}$"
+                                        },
+                                        "estado": {
+                                            "type": "string",
+                                            "description": "Estado de la tarjeta",
+                                            "pattern": "^activa|bloqueada|pausada$"
                                         }
                                     }
                                 }
