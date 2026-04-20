@@ -8,7 +8,8 @@ from solicitud_modelos import Importe
 class Tarjeta(BaseModel):
     descripcion: str
     numero: str
-
+    estado: str
+    
 class Sesion_response(BaseModel):
     # access_token: str = Field(..., examples=["uyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjaGFsbGVuZ2UiLCJleHAiOjE3MTA0Mjc0NTJ9.7dB7Oo-5xumCSq0uY1_eujdlZB8OOgbSULrtx65uGv0"],min_length=1, max_length=90)
     # token_type: str = Field(..., examples=["bearer"],min_length=6, max_length=6, pattern=r"bearer",description="siempre bearer")
