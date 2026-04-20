@@ -236,7 +236,7 @@ async def sesion(usuario: Usuario):
             "token_type": "bearer",
             "access_token_expires": seconds}
     if username == "challenge":
-        json.update({"tarjetas": [{"descripcion": "NOVA TRUST BANK", "numero": "825840853443"}, {"descripcion": "TITANIUM FINANCE BANK", "numero": "423455721156"}, {"descripcion": "ASTRA CAPITAL BANK", "numero": "595278769781"}]})
+        json.update({"tarjetas": [{"descripcion": "NOVA TRUST BANK", "numero": "825840853443", "estado":"Activa"}, {"descripcion": "TITANIUM FINANCE BANK", "numero": "423455721156", "estado":"Activa"}, {"descripcion": "ASTRA CAPITAL BANK", "numero": "595278769781", "estado":"Activa"}]})
     else:
         json.update(generar_json_tarjetas())
 
