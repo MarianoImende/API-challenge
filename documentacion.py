@@ -127,15 +127,18 @@ def documentacion_sesion() -> dict:
                         "tarjetas": [
                             {
                                 "descripcion": "NOVA TRUST BANK",
-                                "numero": "825840853443"
+                                "numero": "825840853443",
+                                "estado":"activa"
                             },
                             {
                                 "descripcion": "TITANIUM FINANCE BANK",
-                                "numero": "423455721156"
+                                "numero": "423455721156",
+                                "estado":"bloqueada"
                             },
                             {
                                 "descripcion": "ASTRA CAPITAL BANK",
-                                "numero": "595278769781"
+                                "numero": "595278769781",
+                                "estado":"pausada"
                             }
                         ]
                     }
