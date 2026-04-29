@@ -108,7 +108,7 @@ def documentacion_sesion() -> dict:
                                         "numero": {
                                             "type": "string",
                                             "description": "Número de tarjeta",
-                                            "pattern": "^[0-9]{15,19}$"
+                                            "pattern": "^[0-9]{12,19}$"
                                         },
                                         "estado": {
                                             "type": "string",
