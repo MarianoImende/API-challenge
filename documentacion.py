@@ -103,7 +103,7 @@ def documentacion_sesion() -> dict:
                                         "descripcion": {
                                             "type": "string",
                                             "description": "Nombre del banco",
-                                            "pattern": "^[A-Z\s]{1,20}$"
+                                            "pattern": "^[A-Z\s]{1,30}$"
                                         },
                                         "numero": {
                                             "type": "string",
